@@ -32,7 +32,7 @@ jobs:
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \
-            --key-name YourKeyName \
+            --key-name github \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHub-Auto-Instance}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
