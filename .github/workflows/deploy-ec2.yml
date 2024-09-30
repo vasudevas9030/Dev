@@ -9,37 +9,5 @@ on:
         required: true
       ami_id:
         description: 'Amazon Machine Image (AMI) ID'
-        default: 'ami-0522ab6e1ddcc7055' # This is the Ubuntu 20.04 AMI in us-east-1. Change it for your region.
+        default: 'ami-0c55b159cbfafe1f0'
         required: true
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up AWS CLI
-        uses: aws-actions/configure-aws-credentials@v2
-        with:
-          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ secrets.AWS_REGION }}
-
-      - name: Launch EC2 Instance
-        run: |
-          INSTANCE_ID=$(aws ec2 run-instances \
-            --image-id ${{ github.event.inputs.ami_id }} \
-            --instance-type ${{ github.event.inputs.instance_type }} \
-            --key-name github \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GitHub-Auto-Instance}]' \
-            --query 'Instances[0].InstanceId' \
-            --output text)
-          echo "Instance ID: $INSTANCE_ID"
-
-      - name: Wait for EC2 to start
-        run: |
-          aws ec2 wait instance-running --instance-ids $INSTANCE_ID
-          echo "EC2 instance $INSTANCE_ID is now running."
-
