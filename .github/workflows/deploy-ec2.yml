@@ -31,9 +31,9 @@ jobs:
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ${{ github.event.inputs.ami_id }} \
-            --instance-type ${{ github.event.inputs.instance_type }} \
-            --security-group-ids sg-0dba1a50d93a9fa38 \ 
+            --instance-type ${{ github.event.inputs.instance_type }} \ 
             --key-name github \
+            --security-group-ids sg-0dba1a50d93a9fa38 \
             --user-data '#!/bin/bash
               sudo apt update -y
               sudo apt install nginx -y
