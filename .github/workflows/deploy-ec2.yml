@@ -15,12 +15,7 @@ on:
         description: 'Security Group ID'
         default: 'sg-066718fe3ec2f14da'
         required: true
-      subnet_id:
-        description: 'Subnet ID'
-        default: 'subnet-06d7525ba0b5c6e67'
-        required: true
-
-jobs:
+ jobs:
   deploy:
     runs-on: ubuntu-latest
 
@@ -42,7 +37,6 @@ jobs:
             --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
             --security-group-ids ${{ github.event.inputs.security_group }}\
-            --subnet-id ${{ github.event.inputs.subnet_id }} \
             --user-data '#!/bin/bash
               sudo apt update -y
               sudo apt install nginx -y
