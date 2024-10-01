@@ -11,6 +11,14 @@ on:
         description: 'Amazon Machine Image (AMI) ID'
         default: 'ami-0522ab6e1ddcc7055' # This is the Ubuntu 20.04 AMI in us-east-1. Change it for your region.
         required: true
+      security_group:
+        description: 'Security Group ID'
+        default: 'sg-066718fe3ec2f14da'
+        required: true
+      subnet_id:
+        description: 'Subnet ID'
+        default: 'subnet-06d7525ba0b5c6e67'
+        required: true
 
 jobs:
   deploy:
@@ -33,6 +41,8 @@ jobs:
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
+            --security-group-ids ${{ github.event.inputs.security_group }}\
+            --subnet-id ${{ github.event.inputs.subnet_id }} \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
