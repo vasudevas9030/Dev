@@ -15,7 +15,8 @@ on:
         description: 'Security Group ID'
         default: 'sg-066718fe3ec2f14da'
         required: true
- jobs:
+
+jobs:
   deploy:
     runs-on: ubuntu-latest
 
@@ -42,7 +43,7 @@ on:
               sudo apt install nginx -y
               sudo systemctl start nginx
               sudo systemctl enable nginx' \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=NEXUS-SERVER}]' \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
           echo "Instance ID: $INSTANCE_ID"
