@@ -29,22 +29,22 @@ jobs:
 
       - name: Launch EC2 Instance
         run: |
+          # Replace with your own security group and subnet values
+          SECURITY_GROUP_ID="sg-066718fe3ec2f14da"  # Update with your security group ID
+          SUBNET_ID="subnet-06d7525ba0b5c6e67"      # Update with your subnet ID
+
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
-             --user-data '#!/bin/bash
-              sudo apt update -y
-              sudo apt install nginx -y
-              sudo systemctl start nginx
-              sudo systemctl enable nginx
-              sudo systemctl restart nginx' \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Nginx-server}]' \
+            --security-group-ids $SECURITY_GROUP_ID \
+            --subnet-id $SUBNET_ID \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
           echo "Instance ID: $INSTANCE_ID"
-
-      - name: Wait for EC2 to start
+          
+       - name: Wait for EC2 to start
         run: |
           aws ec2 wait instance-running --instance-ids $INSTANCE_ID
           echo "EC2 instance $INSTANCE_ID is now running."
