@@ -43,7 +43,7 @@ jobs:
             --key-name github \
             --security-group-ids ${{ github.event.inputs.security_group }}\
             --subnet-id ${{ github.event.inputs.subnet_id }} \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=NEXUS-SERVER}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
           echo "Instance ID: $INSTANCE_ID"
