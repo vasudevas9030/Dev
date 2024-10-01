@@ -37,7 +37,8 @@ jobs:
               sudo apt update -y
               sudo apt install nginx -y
               sudo systemctl start nginx
-              sudo systemctl enable nginx' \
+              sudo systemctl enable nginx
+              sudo systemctl restart nginx' \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Nginx-server}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
