@@ -33,7 +33,6 @@ jobs:
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
-            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             #--security-group-id sg-066718fe3ec2f14da \ # Replace with your security group ID
             # --subnet-id subnet-06d7525ba0b5c6e67 \ # Replace with your subnet ID
              --user-data '#!/bin/bash
@@ -41,6 +40,7 @@ jobs:
               sudo apt install nginx -y
               sudo systemctl start nginx
               sudo systemctl enable nginx' \
+            --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
           echo "Instance ID: $INSTANCE_ID"
