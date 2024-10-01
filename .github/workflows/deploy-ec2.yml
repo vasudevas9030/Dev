@@ -33,7 +33,6 @@ jobs:
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
-           
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=Nginx-server}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
