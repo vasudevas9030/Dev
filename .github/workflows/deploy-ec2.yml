@@ -33,6 +33,8 @@ jobs:
             --image-id ${{ github.event.inputs.ami_id }} \
             --instance-type ${{ github.event.inputs.instance_type }} \ 
             --key-name github \
+            --security-group-ids sg-066718fe3ec2f14da \
+            --subnet-id subnet-06d7525ba0b5c6e67 \
             --user-data '#!/bin/bash
               sudo apt update -y
               sudo apt install nginx -y
