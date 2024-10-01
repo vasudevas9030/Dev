@@ -31,15 +31,8 @@ jobs:
         run: |
           INSTANCE_ID=$(aws ec2 run-instances \
             --image-id ${{ github.event.inputs.ami_id }} \
-            --instance-type ${{ github.event.inputs.instance_type }} \ 
+            --instance-type ${{ github.event.inputs.instance_type }} \
             --key-name github \
-            --security-group-ids sg-066718fe3ec2f14da \
-            --subnet-id subnet-06d7525ba0b5c6e67 \
-            --user-data '#!/bin/bash
-              sudo apt update -y
-              sudo apt install nginx -y
-              sudo systemctl start nginx
-              sudo systemctl enable nginx' \
             --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=GH-instances}]' \
             --query 'Instances[0].InstanceId' \
             --output text)
@@ -49,4 +42,3 @@ jobs:
         run: |
           aws ec2 wait instance-running --instance-ids $INSTANCE_ID
           echo "EC2 instance $INSTANCE_ID is now running."
-
